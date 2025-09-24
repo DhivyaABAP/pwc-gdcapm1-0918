@@ -2,7 +2,7 @@ using { gdcapm1.db.master as master, gdcapm1.db.transaction } from '../db/datamo
 using { gdcapm1.potypedef as common } from '../db/potypedef';  //use the aspect and types
 
 
-service CatalogService @(path: 'CatalogService' ) {
+service CatalogService @(path: 'CatalogService', requires: 'authenticated-user' ) {
     @Capabilities : { 
         InsertRestrictions : {
             $Type : 'Capabilities.InsertRestrictionsType',
@@ -20,8 +20,24 @@ service CatalogService @(path: 'CatalogService' ) {
     entity businesspartner as projection on master.businesspartner;
    // @readonly
     entity ProductDet as projection on master.product;
-    entity EmployeeDetails as projection on master.employees;
-    entity AddressDetail as projection on master.address;
+
+    entity EmployeeDetails @(restrict: [ 
+        {
+            grant :  ['READ'], to: 'Viewer', where : 'bankName = $user.bankName'
+        },
+        {
+            grant :  ['WRITE'], to: 'Admin'
+        }
+    ]) as projection on master.employees;
+
+    entity AddressDetail @(restrict: [ 
+        {
+            grant :  ['READ'], to: 'Viewer', where : 'COUNTRY = $user.mycountry'
+        },
+        {
+            grant :  ['WRITE'], to: 'Admin'
+        }
+    ]) as projection on master.address;
     entity PODetails @( odata.draft.enabled : true)
     
      as projection on transaction.purchaseorder

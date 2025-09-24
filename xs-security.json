@@ -1,0 +1,60 @@
+{
+ "xsappname": "pocapapp",
+ "tenant-mode": "dedicated",
+ "scopes": [
+  {
+   "name": "$XSAPPNAME.Viewer",
+   "description": "View data using this scope"
+  },
+  {
+   "name": "$XSAPPNAME.Admin",
+   "description": "CRUD using this scope"
+  }
+ ],
+ "attributes": [
+  {
+   "name": "myCountry",
+   "description": "Country Property",
+   "valueType": "string"
+  },
+  {
+   "name": "bankName",
+   "description": "Bankname Property",
+   "valueType": "string"
+  }
+ ],
+ "role-templates": [
+  {
+   "name": "Viewer",
+   "description": "View data using this scope",
+   "scope-references": [
+    "$XSAPPNAME.Viewer"
+   ],
+   "attribute-references": [
+    {
+     "name": "myCountry"
+    },
+    {
+     "name": "bankName"
+    }
+   ]
+  },
+  {
+   "name": "Admin",
+   "description": "CRUD using this scope",
+   "scope-references": [
+    "$XSAPPNAME.Admin"
+   ]
+  }
+ ],
+ "authorities": [
+  "$ACCEPT_GRANTED_AUTHORITIES"
+ ],
+ "oauth2-configuration": {
+  "token-validity": 9000,
+  "redirect-uris": [
+   "https://*.cfapps.us10-001.hana.ondemand.com/login/callback"
+  ]
+ },
+ "xsenableasyncservice": true
+}
