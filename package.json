@@ -8,6 +8,7 @@
   "dependencies": {
     "@cap-js/hana": "^2",
     "@sap/cds": "^9",
+    "@sap/hdi-deploy": "^5.5.0",
     "@ui5/cli": "^4.0.26",
     "express": "^4"
   },
